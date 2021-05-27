@@ -1,3 +1,2 @@
-A = ["a", "b", "c"]
-StrA = "".join(A)
-print(StrA)
+x=12.3
+print(type(x))

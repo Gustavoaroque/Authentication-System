@@ -1,10 +1,9 @@
 import mariadb
 import sys
 
-#cur = conn.cursor()
-#retrieving information
-#some_name = "Georgi"
-id = 3
+
+
+
 def Search_usr(card):
     conn = mariadb.connect(
         user="gustavoaroque",
@@ -12,21 +11,13 @@ def Search_usr(card):
         host="localhost",
         port=3306,
         database="test_py" )
-    #id_us = id
+
     cur = conn.cursor()
     cur.execute("SELECT name FROM user_2 WHERE card_id = ?",(card,))
     for name in cur:
         return name
 
     conn.close()
-
-#cur.execute("SELECT first_name,last_name FROM employees WHERE first_name=?", (some_name,))
-
-#for first_name, last_name in cur: 
-#    print(f"First name: {first_name}, Last name: {last_name}")
-    
-
-#insert information 
 
 def Update_credit(card_id, credit):
     conn = mariadb.connect(
