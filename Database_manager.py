@@ -35,7 +35,7 @@ class DataBase:
         
     def get_one_user_by_card(self,card_id):
         try:
-            self.cur.execute("SELECT Users.user_name, Cards.card_id, Users.user_id FROM Cards JOIN Users ON Cards.user_id=Users.user_id WHERE Cards.card_id= {}".format(card_id))
+            self.cur.execute("SELECT Users.user_name, Cards.card_id, Users.user_id,Cards.credit FROM Cards JOIN Users ON Cards.user_id=Users.user_id WHERE Cards.card_id= {}".format(card_id))
             user = self.cur.fetchone()
             return user
         except Exception as e:
@@ -50,12 +50,14 @@ class DataBase:
         except Exception as e:
             raise
         
-    def update_user_name(self,id,name):
+    def update_user_name(self,name):
         try:
+            id = 7
             self.cur.execute("UPDATE Users set user_name=? WHERE user_id = ?",(name,id))
             print('Actualizado correctamente')
         except Exception as e:
             raise
+        self.conn.commit() 
         
     def add_user(self,name,lastname,email,privilege):
         try:
@@ -76,11 +78,25 @@ class DataBase:
             raise
         self.conn.commit() 
         print(f"Last Inserted ID: {self.cur.lastrowid}")
+    
+    def update_card_credit(self,card_id,credit):
+        try:
+            self.cur.execute("UPDATE Cards set credit=? WHERE card_id = ?",(credit,card_id))
+            
+        except Exception as e:
+            raise
+        self.conn.commit()
+        print('Actualizado correctamente')
+    
+    def add_transaction(self, card_id, credit):
+        try:
+            self.cur.execute("INSERT INTO Transactions (card_id, transaction_amount) VALUES (?,?)",(card_id, credit))
+            #print('Creado Correctamente')
+        except Exception as e:
+            raise
+        self.conn.commit() 
+        print(f"Last Inserted ID: {self.cur.lastrowid}")
+        
+        
         
 data = DataBase()
-#data.get_all_users()
-#print('-'*25)
-#data.update_user_name(1,"Marcelo")
-#print('-'*25)
-#data.get_one_user(1)
-#print('-'*25)

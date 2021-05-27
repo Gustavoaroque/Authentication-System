@@ -23,12 +23,31 @@ def enter_using_id():
     id_user = int(input('Enter yout ID:\n'))
     user_info = Database.get_one_user_by_id(id_user)
     print('Hello ', user_info[1])
-    #Desplegar info
+
 
 def enter_using_card():
     card_id_read = int(read_card())
     user_info = Database.get_one_user_by_card(card_id_read)
     print('Hello ', user_info[0])
+    type_op = input('A: Add money to the account \nD: Discount money\n')
+    type_op = type_op.capitalize()
+    if type_op == 'A':
+        money = float(input('The money you want to add:\n'))
+        money_t = float(user_info[3])
+        money_t = money_t + money
+        Database.add_transaction(card_id_read,money)
+        Database.update_card_credit(card_id_read,money_t)
+    elif type_op == 'D':
+        money = float(input('The money you want to discount:\n'))
+        money_t = float(user_info[3])
+        money_t = money_t - money
+        if money_t < 0:
+            print('Rejected')
+        else:
+            Database.add_transaction(card_id_read,money)
+            Database.update_card_credit(card_id_read,money_t)
+    else:
+        print('Error')
 
 
 def add_card_to_user():
@@ -38,12 +57,16 @@ def add_card_to_user():
     Database.add_card(card_id_read,initial_credit,user_id)
 
 
+
+    
+
+
 if '__main__' == __name__:
     Database = DataBase()
     make_border('W E L C O M E   T O   T H E   R E G I S T R A T I O N   S Y S T E M')
     while True:
         print('='*120)
-        print('1:Validate user \n2:Add User\n3:Add Card to a user')
+        print('1:Validate user \n2:Add User\n3:Add Card to a user\n')
         x = int(input('What would you like to do?\n'))
         if x == 1:
             print('Validate using:\n1)Card\n2)ID')
@@ -77,14 +100,9 @@ if '__main__' == __name__:
                     get_data('USER')
             else:
                 print('You are not ADMIN')
-            
-#            name_user = input('Enter the name of the new user:\n')
-#            last_name_user = input('Last Name:\n')
-#            credit_user = int(input('Credit:\n'))
-#            c_id = int(read_card())
-#            Insert_usr(name_user, last_name_user,c_id,credit_user)
-
+                
         elif x == 3:
             add_card_to_user()
+
         else:
             print('ERROR')

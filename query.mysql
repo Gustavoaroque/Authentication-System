@@ -1,0 +1,13 @@
+CREATE TABLE IF NOT EXISTS Transactions (
+    -> transaction_id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    -> card_id VARCHAR(50),
+    -> transaction_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    -> transaction_amount FLOAT(8,3),
+	FOREIGN KEY (card_id) REFERENCES Cards(Card_id);
+    -> );
+CREATE TABLE IF NOT EXISTS Cards (
+    -> card_id VARCHAR(50) NOT NULL PRIMARY KEY,
+    -> credit FLOAT(8,3),
+    -> user_id INETEGER,
+    -> FOREIGN KEY (user_id) REFERENCES Users(user_id)
+    -> );
