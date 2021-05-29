@@ -57,7 +57,23 @@ def add_card_to_user():
     Database.add_card(card_id_read,initial_credit,user_id)
 
 
-
+def show_all_info():
+    make_border('Enter your ID:\n')
+    id_enter = input(' ')
+    user_selected = Database.get_one_user_by_id(id_enter)
+    if user_selected[4] == 'ADMIN':
+        info_show = int(input('Select the info you want to display:\n1:All Users\n2:All Cards\n3:All Transactions\n'))
+        if info_show == 1:
+            Database.get_all_users()
+        elif info_show == 2:
+            Database.get_all_cards()
+        elif info_show == 3:
+            Database.get_all_transactions()
+        else:
+            print('Wrong selection')
+    else:
+        print('ERROR')
+    
     
 
 
@@ -66,7 +82,7 @@ if '__main__' == __name__:
     make_border('W E L C O M E   T O   T H E   R E G I S T R A T I O N   S Y S T E M')
     while True:
         print('='*120)
-        print('1:Validate user \n2:Add User\n3:Add Card to a user\n')
+        print('1:Validate user \n2:Add User\n3:Add Card to a user\n4:Show all info')
         x = int(input('What would you like to do?\n'))
         if x == 1:
             print('Validate using:\n1)Card\n2)ID')
@@ -78,22 +94,15 @@ if '__main__' == __name__:
                 enter_using_id()
             else:
                 print('ERROR')
-            #c_id = int(read_card())
-            #user_info = Search_usr(c_id)
-            #message = 'Welcome ' + user_info[0]
-            #make_border(message)
-            #for i in range(10):
-            #    print('.')
-            #action = float(input('Put the amount of money you want to discount?'))
-            #Update_credit(c_id,action)
+
         elif x == 2:
             make_border('Enter your ID:\n')
             id_enter = input(' ')
             user_selected = Database.get_one_user_by_id(id_enter)
             print(user_selected[4])
             if user_selected[4] == 'ADMIN':
-                print('W E L C O M E   S I R')
-                validation = input('Do you want to create a SuperUser?\ny : yes\nother option : no\n')
+                print('W E L C O M E   A D M I N')
+                validation = input('Do you want to create a SuperUser?\ny : yes\nother option : no\n').capitalize()
                 if validation == 'y':
                     get_data('ADMIN')
                 else:
@@ -103,6 +112,8 @@ if '__main__' == __name__:
                 
         elif x == 3:
             add_card_to_user()
+        elif x == 4:
+            show_all_info()
 
         else:
             print('ERROR')

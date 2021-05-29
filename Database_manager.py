@@ -13,16 +13,7 @@ class DataBase:
         self.cur = self.conn.cursor()
         print("CONEXION ESTABLECIDA")
         
-    def get_all_users(self):
-        
-        try:    
-            self.cur.execute("SELECT * FROM Users")
-            users = self.cur.fetchall()
-            for user in users:
-                print('ID: '+str(user[0])+'\n'+'Name: '+ user[1])
-                
-        except Exception as e:
-            raise
+    
         
     def get_one_user_by_id(self,id):
         try:    
@@ -96,6 +87,40 @@ class DataBase:
             raise
         self.conn.commit() 
         print(f"Last Inserted ID: {self.cur.lastrowid}")
+    
+    
+    def get_all_cards(self):
+        try:    
+            self.cur.execute("SELECT * FROM Cards")
+            cards = self.cur.fetchall()
+            for card in cards:
+                print('CARD ID: '+str(card[0])+'\n'+'Credit: '+ str(card[1]))
+                print('-'*120)
+                
+        except Exception as e:
+            raise
+        
+    def get_all_transactions(self):
+        try:    
+            self.cur.execute("SELECT * FROM Transactions")
+            transactions = self.cur.fetchall()
+            for transaction in transactions:
+                print('Transaction ID: '+ str(transaction[0])+'\n'+'Transaction Date: '+ str(transaction[2]) + '\n'+'Transaction amount: ' + str(transaction[3]))
+                print('-'*120)
+            #print('Hola' + a)
+        except Exception as e:
+            raise
+        
+    def get_all_users(self):
+        
+        try:    
+            self.cur.execute("SELECT * FROM Users")
+            users = self.cur.fetchall()
+            for user in users:
+                print('ID: '+str(user[0])+'\n'+'Name: '+ user[1])
+                print('-'*120)
+        except Exception as e:
+            raise
         
         
         
